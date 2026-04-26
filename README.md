@@ -1,63 +1,70 @@
-# Real-Time Shared Grid App
+# 🟦 Real-Time Shared Grid App
 
-A collaborative 20x20 grid where users can claim cells in real-time. Built with the MERN stack and Socket.IO.
+A premium, collaborative 20x20 canvas where users can claim territory in real-time. Built with the MERN stack and Socket.IO for seamless interactivity.
 
-## Features
-- **Real-Time Collaboration**: See cell claims instantly as they happen.
-- **Atomic Claiming**: Backend prevents race conditions using MongoDB atomic updates.
-- **Dynamic Leaderboard**: Track which users own the most cells.
-- **Click Cooldown**: Prevents spamming and ensures fair play.
-- **Premium UI**: Smooth animations, glassmorphism, and responsive design.
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Tech Stack
-- **Frontend**: React, Vite, Tailwind CSS, Framer Motion, Socket.IO Client.
-- **Backend**: Node.js, Express, Socket.IO, Mongoose.
-- **Database**: MongoDB (Atlas or Local).
+## 🌟 Key Features
 
-## Setup Instructions
+- **Friendly Identities**: Every user is assigned a fun, random name (e.g., *Swift Panda*) using `unique-names-generator`.
+- **Real-Time Collaboration**: Powered by **Socket.IO** for instant, low-latency updates across all connected clients.
+- **Dynamic Gameplay**:
+  - **Claiming**: Click any grey cell to make it yours.
+  - **Stealing**: Capture a cell owned by another user simply by clicking it.
+  - **Toggling**: Click your own cell to release it back to the public.
+- **Atomic Concurrency**: Backend uses MongoDB's atomic operations to ensure state integrity during simultaneous clicks.
+- **Live Leaderboard**: Real-time ranking of top cell owners.
+- **Visual Excellence**: Modern UI with glassmorphism, smooth Framer Motion transitions, and responsive CSS grid.
+
+## 🛠 Tech Stack
+
+- **Frontend**: React (Vite), Tailwind CSS v4, Framer Motion, Lucide Icons.
+- **Backend**: Node.js, Express, Socket.IO.
+- **Database**: MongoDB Atlas (Mongoose).
+
+## 🚀 Getting Started
 
 ### 1. Backend Setup
-1. Open a terminal in the `backend/` directory.
-2. Install dependencies:
-   ```bash
-   npm install
+1. Navigate to `/backend`.
+2. Run `npm install`.
+3. Create a `.env` file based on `.env.example`:
+   ```env
+   PORT=5000
+   MONGODB_URI=your_mongodb_atlas_uri
    ```
-3. Configure environment variables:
-   - Rename `.env.example` to `.env` or create a new `.env` file.
-   - Set your `MONGODB_URI` (defaults to local MongoDB).
-4. Start the server:
-   ```bash
-   npm start
-   ```
+4. Start the server: `npm start`.
 
 ### 2. Frontend Setup
-1. Open a terminal in the `frontend/` directory.
-2. Install dependencies:
-   ```bash
-   npm install
+1. Navigate to `/frontend`.
+2. Run `npm install`.
+3. Create a `.env` file:
+   ```env
+   VITE_SOCKET_URL=http://localhost:5000
+   VITE_COOLDOWN=3
    ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+4. Start the app: `npm run dev`.
 
-### 3. Usage
-- Open the frontend URL (usually `http://localhost:5173`).
-- Click any grey cell to claim it with your unique color.
-- Open multiple browser tabs to see the real-time synchronization in action!
+## 🌐 Deployment Notes
 
-## Project Structure
-```
+- **Backend (Render)**: Set the root directory to `backend`, build command to `npm install`, and start command to `node server.js`. 
+  - *Note: Connection may take up to 1 minute on first load due to Render's free tier server limitations.*
+- **Frontend (Netlify)**: Set the root directory to `frontend`, build command to `npm run build`, and publish directory to `dist`.
+
+## 📂 Project Structure
+```text
 root/
 ├── backend/
-│   ├── models/Cell.js     # Mongoose schema
-│   ├── server.js          # Express & Socket.IO logic
-│   └── .env               # Environment config
-└── frontend/
-    ├── src/
-    │   ├── components/    # UI Components
-    │   ├── hooks/         # useSocket custom hook
-    │   ├── utils/         # User identity logic
-    │   └── App.jsx        # Main layout
-    └── tailwind.config.js # CSS configuration
+│   ├── models/Cell.js     # Data schema with ownerName support
+│   └── server.js          # Socket.IO & Atomic Update logic
+├── frontend/
+│   ├── src/
+│   │   ├── components/    # Grid, Cell, and Leaderboard components
+│   │   ├── hooks/         # useSocket custom hook
+│   │   └── utils/         # unique-names-generator integration
+│   └── tailwind.config.js # Custom 20-column grid config
+└── .gitignore             # Optimized for MERN monorepos
 ```
+
+---
+*Created with ❤️ by Antigravity*

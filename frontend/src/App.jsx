@@ -3,7 +3,7 @@ import { getOrCreateUser } from './utils/user';
 import { useSocket } from './hooks/useSocket';
 import Cell from './components/Cell';
 import Leaderboard from './components/Leaderboard';
-import { Activity, MousePointer2, RefreshCcw } from 'lucide-react';
+import { Activity, MousePointer2, RefreshCcw, Info } from 'lucide-react';
 
 function App() {
   const user = useMemo(() => getOrCreateUser(), []);
@@ -25,13 +25,25 @@ function App() {
           <h1 className="text-4xl font-black text-blue-500">
             Shared Grid
           </h1>
-          <p className="text-slate-400 flex items-center gap-2 mt-1">
-            Real-time collaborative canvas 
-            <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${isConnected ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`} />
-              {isConnected ? 'Connected' : 'Disconnected'}
-            </span>
-          </p>
+          <div className="text-slate-400 flex items-center gap-3 mt-1">
+            <p className="flex items-center gap-2">
+              Real-time collaborative canvas 
+              <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${isConnected ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-red-400'}`} />
+                {isConnected ? 'Connected' : 'Disconnected'}
+              </span>
+            </p>
+            
+            {/* Info Icon with Tooltip */}
+            <div className="group relative">
+              <Info className="w-3.5 h-3.5 text-slate-500 cursor-help hover:text-slate-300 transition-colors" />
+              <div className="absolute left-0 top-full mt-2 hidden group-hover:block z-[100] w-48">
+                <div className="bg-slate-800 text-[10px] p-2 rounded-lg border border-slate-700 shadow-2xl leading-relaxed text-slate-200">
+                  Connection may take up to 1 min on first load due to Render's free tier server limitaions.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
