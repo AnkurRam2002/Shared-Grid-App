@@ -87,7 +87,7 @@ io.on('connection', (socket) => {
         };
       }
 
-      const updatedCell = await Cell.findOneAndUpdate({ x, y }, update, { new: true });
+      const updatedCell = await Cell.findOneAndUpdate({ x, y }, update, { returnDocument: 'after' });
 
       if (updatedCell) {
         io.emit('cell_updated', updatedCell);
