@@ -15,6 +15,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "socket.io-client": "^4.8.3",
+    "unique-names-generator": "^4.7.1",
     "uuid": "^14.0.0"
   },
   "devDependencies": {

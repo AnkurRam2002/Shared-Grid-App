@@ -38,7 +38,7 @@ function App() {
           <div className="glass px-4 py-2 rounded-xl flex items-center gap-3">
             <div className="text-right">
               <p className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Your Identity</p>
-              <p className="text-sm font-mono">{user.id.slice(0, 8)}</p>
+              <p className="text-sm font-bold text-slate-100">{user.name}</p>
             </div>
             <div 
               className="w-8 h-8 rounded-lg shadow-inner ring-2 ring-white/10" 

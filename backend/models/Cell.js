@@ -4,6 +4,7 @@ const cellSchema = new mongoose.Schema({
   x: { type: Number, required: true },
   y: { type: Number, required: true },
   owner: { type: String, default: null },
+  ownerName: { type: String, default: null },
   color: { type: String, default: '#374151' }, // Tailwind slate-700
   updatedAt: { type: Date, default: Date.now }
 });

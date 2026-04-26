@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
 const COLORS = [
   '#ef4444', '#f97316', '#f59e0b', '#10b981', 
@@ -7,16 +8,30 @@ const COLORS = [
 ];
 
 export const getOrCreateUser = () => {
-  let user = localStorage.getItem('grid_user');
-  if (user) {
-    return JSON.parse(user);
+  let userStr = localStorage.getItem('grid_user');
+  let user = userStr ? JSON.parse(userStr) : null;
+
+  // Migration: If user exists but doesn't have a name, or if no user exists
+  if (!user || !user.name) {
+    const randomName = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals],
+      separator: ' ',
+      length: 2,
+      style: 'capital'
+    });
+
+    if (!user) {
+      user = {
+        id: uuidv4(),
+        name: randomName,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      };
+    } else {
+      user.name = randomName;
+    }
+
+    localStorage.setItem('grid_user', JSON.stringify(user));
   }
 
-  const newUser = {
-    id: uuidv4(),
-    color: COLORS[Math.floor(Math.random() * COLORS.length)],
-  };
-
-  localStorage.setItem('grid_user', JSON.stringify(newUser));
-  return newUser;
+  return user;
 };

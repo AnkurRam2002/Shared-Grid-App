@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('claim_cell', async ({ x, y, userId, color }) => {
+  socket.on('claim_cell', async ({ x, y, userId, userName, color }) => {
     try {
       const currentCell = await Cell.findOne({ x, y });
       
@@ -72,6 +72,7 @@ io.on('connection', (socket) => {
         update = { 
           $set: { 
             owner: null, 
+            ownerName: null,
             color: '#374151', // Reset to default slate-700
             updatedAt: new Date() 
           } 
@@ -81,6 +82,7 @@ io.on('connection', (socket) => {
         update = { 
           $set: { 
             owner: userId, 
+            ownerName: userName,
             color, 
             updatedAt: new Date() 
           } 

@@ -61,6 +61,7 @@ export const useSocket = (user) => {
       x,
       y,
       userId: user.id,
+      userName: user.name,
       color: user.color
     });
     
