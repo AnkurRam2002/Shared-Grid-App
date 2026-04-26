@@ -1,21 +1,44 @@
 # 🟦 Real-Time Shared Grid App
 
-A premium, collaborative 20x20 canvas where users can claim territory in real-time. Built with the MERN stack and Socket.IO for seamless interactivity.
+A collaborative 20x20 canvas where users can claim territory in real-time. Built with the MERN stack and Socket.IO for seamless interactivity and state persistence.
 
 ![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+---
+
+## 🏗️ Backend Architecture
+
+The backend is designed for high concurrency and real-time state management.
+
+- **Express & Node.js**: Provides the foundation for the server-side logic and HTTP management.
+- **MongoDB Atlas**: Serves as the source of truth for the 400-cell grid. Every claim is persisted to ensure territory isn't lost on refresh or server restart.
+- **Atomic Operations**: Utilizes MongoDB's `findOneAndUpdate` to perform atomic updates. This prevents race conditions where multiple users try to claim the same cell at the exact same millisecond.
+- **Automated Initialization**: On the first boot, the backend automatically seeds the database with a 20x20 coordinate system (400 documents).
+
+## 📡 Event-Driven Architecture (EDA)
+
+The application follows a strict event-driven pattern using **Socket.IO** to minimize latency and maximize responsiveness.
+
+1. **User Action**: A user clicks a cell, triggering a `claim_cell` event via the custom `useSocket` hook.
+2. **Server Processing**: The server receives the event, validates the request, and performs an atomic database update.
+3. **Global Broadcast**: Instead of a simple request-response, the server emits a `cell_updated` event to *all* connected clients.
+4. **UI Reactivity**: Every client's frontend listens for `cell_updated` and reactively updates only the specific cell in its local state, avoiding a full grid re-render.
+
 ## 🌟 Key Features
 
-- **Friendly Identities**: Every user is assigned a fun, random name (e.g., *Swift Panda*) using `unique-names-generator`.
-- **Real-Time Collaboration**: Powered by **Socket.IO** for instant, low-latency updates across all connected clients.
+- **Friendly Identities**: Every user is assigned a fun, random name (e.g., *Swift Panda*) and a unique color upon joining.
+- **Real-Time Collaboration**: Powered by **Socket.IO** for instant, low-latency updates.
 - **Dynamic Gameplay**:
-  - **Claiming**: Click any grey cell to make it yours.
-  - **Stealing**: Capture a cell owned by another user simply by clicking it.
-  - **Toggling**: Click your own cell to release it back to the public.
-- **Atomic Concurrency**: Backend uses MongoDB's atomic operations to ensure state integrity during simultaneous clicks.
-- **Live Leaderboard**: Real-time ranking of top cell owners.
-- **Visual Excellence**: Modern UI with glassmorphism, smooth Framer Motion transitions, and responsive CSS grid.
+  - **Claiming**: Occupy any empty (grey) cell.
+  - **Stealing**: Capture cells owned by others.
+  - **Toggling**: Relinquish your own territory by clicking it again.
+- **Cooldown Mechanic**: Prevents spamming and encourages strategic play (configurable via environment variables).
+- **Live Leaderboard**: Real-time calculation of top territory owners based on active grid state.
+- **Visual Excellence**:
+  - **Glassmorphism**: Sleek, transparent UI elements.
+  - **Framer Motion**: Smooth entry animations and state transitions.
+  - **Responsive Grid**: Custom 20-column CSS layout that adapts to screen sizes.
 
 ## 🛠 Tech Stack
 
@@ -55,16 +78,13 @@ A premium, collaborative 20x20 canvas where users can claim territory in real-ti
 ```text
 root/
 ├── backend/
-│   ├── models/Cell.js     # Data schema with ownerName support
-│   └── server.js          # Socket.IO & Atomic Update logic
+│   ├── models/Cell.js     # Data schema with atomic index
+│   └── server.js          # Socket.IO logic & MongoDB integration
 ├── frontend/
 │   ├── src/
-│   │   ├── components/    # Grid, Cell, and Leaderboard components
-│   │   ├── hooks/         # useSocket custom hook
-│   │   └── utils/         # unique-names-generator integration
-│   └── tailwind.config.js # Custom 20-column grid config
+│   │   ├── components/    # Grid, Cell, and Leaderboard
+│   │   ├── hooks/         # useSocket (EDA logic)
+│   │   └── utils/         # Random identity generator
+│   └── tailwind.config.js # Custom 20x20 grid system
 └── .gitignore             # Optimized for MERN monorepos
 ```
-
----
-*Created with ❤️ by Antigravity*
