@@ -1,4 +1,4 @@
-# 🟦 Real-Time Shared Grid App
+# 🟦 Grid Wars
 
 A collaborative 20x20 canvas where users can claim territory in real-time. Built with the MERN stack and Socket.IO for seamless interactivity and state persistence.
 

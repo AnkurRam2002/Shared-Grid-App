@@ -23,7 +23,7 @@ function App() {
       <header className="w-full max-w-5xl flex flex-col md:flex-row items-center justify-between gap-4">
         <div>
           <h1 className="text-4xl font-black text-blue-500">
-            Shared Grid
+            Grid Wars
           </h1>
           <div className="text-slate-400 flex items-center gap-3 mt-1">
             <p className="flex items-center gap-2">

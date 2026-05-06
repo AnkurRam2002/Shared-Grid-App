@@ -19,7 +19,7 @@ const io = new Server(server, {
 });
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/shared-grid';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/grid-wars';
 
 // MongoDB Connection
 mongoose.connect(MONGODB_URI)
